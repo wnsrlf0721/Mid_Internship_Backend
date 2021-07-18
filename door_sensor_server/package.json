@@ -1,13 +1,12 @@
 {
-  "name": "air_monitor_server",
+  "name": "door_sensor_server",
   "version": "1.0.0",
   "description": "",
-  "main": "air_monitor.js",
+  "main": "door_sensor.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon air_monitor.js"
+    "start": "nodemon door_sensor.js"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {

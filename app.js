@@ -13,7 +13,8 @@ app.get('/',function(req,res){
     let bulb= ['',''];
     let plug= ['',''];
     let airmonitor= "";
-
+    let doorsensor= "";
+    let motion="";
     //제어 서버로부터 mqtt 메시지를 받는 상황
     client.on('message',function(topic,message){
         if(topic=='bulb/sensor_status'){ message.toString();
@@ -34,6 +35,16 @@ app.get('/',function(req,res){
             const parse = JSON.parse(message.toString());
             airmonitor = parse;
             console.log(airmonitor);
+        }
+        else if(topic=='door/sensor_status'){
+            const parse = JSON.parse(message.toString());
+            doorsensor = parse;
+            console.log(doorsensor);
+        }
+        else if(topic=='motion/sensor_status'){
+            const parse = JSON.parse(message.toString());
+            motion = parse;
+            console.log(motion);
         }
     });
 });

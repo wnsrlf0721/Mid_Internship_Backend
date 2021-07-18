@@ -13,5 +13,7 @@ client.on('connect', function () {
   client.subscribe('airmonitor/sensor_status')
   client.subscribe('bulb/sensor_status')
   client.subscribe('plug/sensor_status')
+  client.subscribe('door/sensor_status')
+  client.subscribe('motion/sensor_status')
 });
 module.exports = client;
