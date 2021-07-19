@@ -5,6 +5,7 @@ const app = express();
 const config = require('./config/config');
 const client = require('./mqtt/control');
 
+const con = require('./IoT_construct');
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
@@ -31,55 +32,33 @@ app.use(express.urlencoded({extended:true}));
 // var newBulb = new Bulb({
 
 // })
-function bulb(){
-    this.sat = '';
-    this.hue = '';
-    this.switch = '';
-}
-let bulb1 = new bulb();
-let bulb2 = new bulb();
 
+let bulb1 = new con.bulb();
+let bulb2 = new con.bulb();
 let bulb_arr= [bulb1,bulb2];
 
-function plug(){
-    this.power = '';
-    this.energy = '';
-    this.switch = '';
-}
-
-let plug1= new plug();
-let plug2= new plug();
+let plug1= new con.plug();
+let plug2= new con.plug();
 let plug_arr= [plug1,plug2];
 
-let airmonitor= new Array();
-for (var i=0;i<8;i++){
-    airmonitor[i] = '';
-}
+let air= new con.airmonitor();
 
-let doorsensor= ['','','']; //[0] - contact(문열림 여부), [1] - accel(움직임 감지), [2] - battery
+let door= new con.doorsensor(); 
 
-let motion=['','']; //[0] - motion value , [1] - battery value
+let motion= new con.motionsensor();
 
 //localhost:3000 페이지 실행
 app.get('/',function(req,res){
     //제어 서버로부터 mqtt 메시지를 받는 상황
     client.on('message',function(topic,message){
+        const parse = JSON.parse(message.toString());
         if(topic=='bulb/sensor_status'){ 
-            const parse = JSON.parse(message.toString());
-
             const color = [parse[0].colorControl,
             parse[1].colorControl];
 
+            //sat value
             const sat = [color[0].saturation.value,
             color[1].saturation.value];
-
-            const hue = [color[0].hue.value,
-            color[1].hue.value];
-
-            const swch = [parse[0].switch.switch.value,
-            parse[1].switch.switch.value];
-
-            //sat value
             if(bulb_arr[0].sat != sat[0]){
                 bulb_arr[0].sat= sat[0];
                 console.log('sat1: ',bulb_arr[0].sat);
@@ -90,6 +69,8 @@ app.get('/',function(req,res){
             }
 
             //hue value
+            const hue = [color[0].hue.value,
+            color[1].hue.value];
             if(bulb_arr[0].hue!=hue[0]){
                 bulb_arr[0].hue=hue[0];
                 console.log('hue1: ',bulb_arr[0].hue);
@@ -100,6 +81,8 @@ app.get('/',function(req,res){
             }
 
             //switch
+            const swch = [parse[0].switch.switch.value,
+            parse[1].switch.switch.value];
             if(bulb_arr[0].switch!=swch[0]){
                 bulb_arr[0].switch=swch[0];
                 console.log('on/off1: ',bulb_arr[0].switch);
@@ -111,8 +94,6 @@ app.get('/',function(req,res){
         }
 
         else if(topic=='plug/sensor_status'){
-            const parse = JSON.parse(message.toString());
-
             const power = [parse[0].powerMeter.power.value,
             parse[1].powerMeter.power.value];
 
@@ -157,8 +138,6 @@ app.get('/',function(req,res){
         }
 
         else if(topic=='airmonitor/sensor_status'){
-            const parse = JSON.parse(message.toString());
-
             const co2_measure = parse.carbonDioxideMeasurement.carbonDioxide.value; //co2 value [0]
             //const co2_concern = parse.carbonDioxideHealthConcern.carbonDioxideHealthConcern.value; 
 
@@ -212,38 +191,40 @@ app.get('/',function(req,res){
 
         //Door sensor 디바이스 서버에서 보내주는 message 처리
         else if(topic=='door/sensor_status'){
-            const parse = JSON.parse(message.toString());
-            const contact = parse.contactSensor.contact.value; //[0]
-            const accelsensor = parse.accelerationSensor.acceleration.value; //[1]
-            const battery = parse.battery.battery.value;//[2]
-            if(doorsensor[0]!= contact){
-                doorsensor[0]=contact;
-                console.log('door: ',doorsensor[0]);
+            //contact value
+            const contact = parse.contactSensor.contact.value;
+            if(door.contact!= contact){
+                door.contact=contact;
+                console.log('door: ',door.contact);
             }
-            if(doorsensor[1]!= accelsensor){
-                doorsensor[1]=accelsensor;
-                console.log('accel motion: ',doorsensor[1]);
+
+            //accel value
+            const accelsensor = parse.accelerationSensor.acceleration.value;
+            if(door.accelsensor!= accelsensor){
+                door.accelsensor=accelsensor;
+                console.log('accel motion: ',door.accelsensor);
             }
-            if(doorsensor[2]!= battery){
-                doorsensor[2]=battery;
-                console.log('battery: ',doorsensor[2]);
+
+            //battery value
+            const battery = parse.battery.battery.value;
+            if(door.battery!= battery){
+                door.battery=battery;
+                console.log('battery: ',door.battery);
             }
         }
 
         //motion sensor 디바이스 서버에서 보내주는 message 처리
         else if(topic=='motion/sensor_status'){
-            const parse = JSON.parse(message.toString());
-
             const mot = parse.motionSensor.motion.value;
-            if(motion[0]!=mot){
-                motion[0]=mot;
-                console.log('motion: ',motion[0]);
+            if(motion.motion!=mot){
+                motion.motion=mot;
+                console.log('motion: ',motion.motion);
             }
 
             const battery = parse.battery.battery.value;
-            if(motion[1]!=battery){
-                motion[1]=battery;
-                console.log('battery: ', motion[1]);
+            if(motion.battery!=battery){
+                motion.battery=battery;
+                console.log('battery: ', motion.battery);
             }
         }
     });
