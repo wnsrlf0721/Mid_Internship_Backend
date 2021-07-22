@@ -49,7 +49,7 @@ function getSensorStatus(){
     `${config.URL}/${DEVICE_ID[1]}/status`];
     const p1 = new Promise(resolve=>{
         authedAxios.get(url_data[0]).then(result=>{
-            const sensor=result.data.components.main
+            let sensor=result.data.components.main
             resolve(sensor)
         })
     })

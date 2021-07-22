@@ -1,5 +1,5 @@
-const con = require('./IoT_construct');
 
+const con = require('./IoT_construct');
 // device 정보 생성
 let bulb1 = new con.bulb();
 let bulb2 = new con.bulb();
@@ -17,6 +17,7 @@ let motion= new con.motionsensor();
 
 // 각 device 별 data 호출 함수
 function read_bulb(parse){
+    let return_arr = [];
     //sat & hue value's 상위components
     const color = [parse[0].colorControl,
     parse[1].colorControl];
@@ -27,10 +28,12 @@ function read_bulb(parse){
     if(bulb_arr[0].sat != sat[0]){
         bulb_arr[0].sat= sat[0];
         console.log('sat1: ',bulb_arr[0].sat);
+        return_arr.push(`sat1: ${bulb_arr[0].sat}`);
     }
     if(bulb_arr[1].sat != sat[1]){
         bulb_arr[1].sat= sat[1];
         console.log('sat2: ',bulb_arr[1].sat);
+        return_arr.push(`sat2: ${bulb_arr[1].sat}`);
     }
 
     // hue value
@@ -39,10 +42,12 @@ function read_bulb(parse){
     if(bulb_arr[0].hue!=hue[0]){
         bulb_arr[0].hue=hue[0];
         console.log('hue1: ',bulb_arr[0].hue);
+        return_arr.push(`hue1: ${bulb_arr[0].hue}`);
     }
     if(bulb_arr[1].hue!=hue[1]){
         bulb_arr[1].hue=hue[1];
         console.log('hue2: ',bulb_arr[1].hue);
+        return_arr.push(`hue2: ${bulb_arr[1].hue}`);
     }
 
     //switch
@@ -51,12 +56,15 @@ function read_bulb(parse){
     if(bulb_arr[0].switch!=swch[0]){
         bulb_arr[0].switch=swch[0];
         console.log('on/off1: ',bulb_arr[0].switch);
+        return_arr.push(`on/off1: ${bulb_arr[0].switch}`);
+
     }
     if(bulb_arr[1].switch!=swch[1]){
         bulb_arr[1].switch=swch[1];
         console.log('on/off2: ',bulb_arr[1].switch);
+        return_arr.push(`on/off2: ${bulb_arr[1].switch}`);
     }
-
+    return return_arr;
 }
 
 function read_plug(parse){

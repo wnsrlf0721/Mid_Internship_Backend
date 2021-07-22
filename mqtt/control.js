@@ -1,5 +1,6 @@
 const mqtt = require('mqtt');
 const config = require('../config/config');
+const func = require('../IoT_function');
 
 const client = mqtt.connect({
   protocol: 'mqtt',
@@ -16,4 +17,5 @@ client.on('connect', function () {
   client.subscribe('door/sensor_status')
   client.subscribe('motion/sensor_status')
 });
+
 module.exports = client;
