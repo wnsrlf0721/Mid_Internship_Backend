@@ -11,9 +11,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 //localhost:3000 페이지 실행
-app.get('/',function(req,res){
-    websocket(server);
-});
+// app.get('/',function(req,res){
+//     res.sendStatus(200);
+// });
 
 //post method를 이용해 제어서버로 mqtt메시지 전송, control할 수 있는 서버는 전구, 스마트플러그 2가지 가능
 app.post('/bulb/command', function(req,res){
@@ -28,6 +28,8 @@ app.post('/plug/command', function(req,res){
 server.listen(config.PORT, function(){
     console.log(`Server is up and running on port ${config.PORT}`);
 });
+
+websocket(server);
     // {
     //     "commands": [
     //         {

@@ -27,12 +27,10 @@ function read_bulb(parse){
     color[1].saturation.value];
     if(bulb_arr[0].sat != sat[0]){
         bulb_arr[0].sat= sat[0];
-        console.log('sat1: ',bulb_arr[0].sat);
         return_arr.push(`sat1: ${bulb_arr[0].sat}`);
     }
     if(bulb_arr[1].sat != sat[1]){
         bulb_arr[1].sat= sat[1];
-        console.log('sat2: ',bulb_arr[1].sat);
         return_arr.push(`sat2: ${bulb_arr[1].sat}`);
     }
 
@@ -41,43 +39,40 @@ function read_bulb(parse){
     color[1].hue.value];
     if(bulb_arr[0].hue!=hue[0]){
         bulb_arr[0].hue=hue[0];
-        console.log('hue1: ',bulb_arr[0].hue);
         return_arr.push(`hue1: ${bulb_arr[0].hue}`);
     }
     if(bulb_arr[1].hue!=hue[1]){
         bulb_arr[1].hue=hue[1];
-        console.log('hue2: ',bulb_arr[1].hue);
         return_arr.push(`hue2: ${bulb_arr[1].hue}`);
     }
 
-    //switch
+    //switch value
     const swch = [parse[0].switch.switch.value,
     parse[1].switch.switch.value];
     if(bulb_arr[0].switch!=swch[0]){
         bulb_arr[0].switch=swch[0];
-        console.log('on/off1: ',bulb_arr[0].switch);
         return_arr.push(`on/off1: ${bulb_arr[0].switch}`);
 
     }
     if(bulb_arr[1].switch!=swch[1]){
         bulb_arr[1].switch=swch[1];
-        console.log('on/off2: ',bulb_arr[1].switch);
         return_arr.push(`on/off2: ${bulb_arr[1].switch}`);
     }
     return return_arr;
 }
 
 function read_plug(parse){
+    let return_arr = [];
     //power 
     const power = [parse[0].powerMeter.power.value,
     parse[1].powerMeter.power.value];
     if(plug_arr[0].power!=power[0]){
         plug_arr[0].power=power[0]
-        console.log('Power1: ',plug_arr[0].power)
+        return_arr.push(`Power1: ${plug_arr[0].power}`);
     }
     if(plug_arr[1].power!=power[1]){
         plug_arr[1].power=power[1]
-        console.log('Power2: ',plug_arr[1].power)
+        return_arr.push(`Power2: ${plug_arr[1].power}`);
     }
 
     //energy
@@ -85,36 +80,39 @@ function read_plug(parse){
     parse[1].energyMeter.energy.value];
     if(plug_arr[0].energy!=energy[0]){
         plug_arr[0].energy=energy[0]
-        console.log('Energy1: ',plug_arr[0].energy)
+        return_arr.push(`Energy1: ${plug_arr[0].energy}`);
     }
     if(plug_arr[1].energy!=energy[1]){
         plug_arr[1].energy=energy[1];
-        console.log('Energy2: ',plug_arr[1].energy);
+        return_arr.push(`Energy2: ${plug_arr[1].energy}`);
     }
 
     //swch
     const swch = [parse[0].switch.switch.value,
     parse[1].switch.switch.value];
     if(plug_arr[0].switch!=swch[0]){
-        plug_arr[0].switch=swch[0]
-        console.log('Switch1: ',plug_arr[0].switch);
+        plug_arr[0].switch=swch[0];
+        return_arr.push(`Switch1: ${plug_arr[0].switch}`);
     }
     if(plug_arr[1].switch!=swch[1]){
         plug_arr[1].switch=swch[1];
-        console.log('Switch2: ',plug_arr[1].switch);
+        return_arr.push(`Switch2: ${plug_arr[1].switch}`);
     }
+    return return_arr;
 }
 function read_air(parse){
+    let return_arr = [];
+
     //co2 data
     const co2_measure = parse.carbonDioxideMeasurement.carbonDioxide.value; //co2 value [0]
     const co2_concern = parse.carbonDioxideHealthConcern.carbonDioxideHealthConcern.value; 
     if(air.co2_measure!=co2_measure){
         air.co2_measure=co2_measure;
-        console.log('Co2: ',air.co2_measure);
+        return_arr.push(`Co2: ${air.co2_measure}`);
     }
     if(air.co2_concern!=co2_concern){
         air.co2_concern = co2_concern;
-        console.log('>>',air.co2_concern);
+        return_arr.push(`>> ${air.co2_concern}`);
     }
 
     //dust data
@@ -122,11 +120,11 @@ function read_air(parse){
     const dust_concern = parse.dustHealthConcern.dustHealthConcern.value; 
     if(air.dust_measure!=dust_measure){
         air.dust_measure=dust_measure;
-        console.log('dust: ',air.dust_measure);
+        return_arr.push(`dust: ${air.dust_measure}`);
     }
     if(air.dust_concern!=dust_concern){
         air.dust_concern=dust_concern;
-        console.log('>>',air.dust_concern);
+        return_arr.push(`>> ${air.dust_concern}`);
     }
 
     //fdust data
@@ -134,11 +132,11 @@ function read_air(parse){
     const fineDust_concern = parse.fineDustHealthConcern.fineDustHealthConcern.value; 
     if(air.fineDust_measure!=fineDust_measure){
         air.fineDust_measure=fineDust_measure;
-        console.log('fineDust: ',air.fineDust_measure);
+        return_arr.push(`fineDust: ${air.fineDust_measure}`);
     }
     if(air.fineDust_concern!=fineDust_concern){
         air.fineDust_concern=fineDust_concern;
-        console.log('>>',air.fineDust_concern);
+        return_arr.push(`>> ${air.fineDust_concern}`);
     }
 
     //vfdust data
@@ -146,77 +144,85 @@ function read_air(parse){
     const veryfineDust_concern =parse.veryFineDustHealthConcern.veryFineDustHealthConcern.value; 
     if(air.veryfineDust_measure!=veryfineDust_measure){
         air.veryfineDust_measure=veryfineDust_measure;
-        console.log('veryfineDust: ',air.veryfineDust_measure);
+        return_arr.push(`veryfineDust: ${air.veryfineDust_measure}`);
     }
     if(air.veryfineDust_concern!=veryfineDust_concern){
         air.veryfineDust_concern=veryfineDust_concern;
-        console.log('>>',air.veryfineDust_concern);
+        return_arr.push(`>> ${air.veryfineDust_concern}`);
     }
 
     //illu data
     const illuminance = parse.illuminanceMeasurement.illuminance.value; //조도 [4]
     if(air.illuminance!=illuminance){
         air.illuminance=illuminance;
-        console.log('조도: ',air.illuminance);
+        return_arr.push(`조도: ${air.illuminance}`);
     }
 
     //humid data
     const humidity = parse.relativeHumidityMeasurement.humidity.value; //습도 [5]
     if(air.humidity!=humidity){
         air.humidity=humidity;
-        console.log('습도: ',air.humidity);
+        return_arr.push(`습도: ${air.humidity}`);
     }
 
     //temperature data
     const temperature = parse.temperatureMeasurement.temperature.value; //온도 [6]
     if(air.temperature!=temperature){
         air.temperature=temperature;
-        console.log('temperature: ',air.temperature);
+        return_arr.push(`temperature: ${air.temperature}`);
     }
 
     //battery data
     const battery = parse.battery.battery.value; // 배터리 [7]
     if(air.battery!=battery){
         air.battery=battery;
-        console.log('battery: ',air.battery);
+        return_arr.push(`battery: ${air.battery}`);
     }
+    return return_arr;
 }
+
 function read_door(parse){
+    let return_arr = [];
+
     //contact value
     const contact = parse.contactSensor.contact.value;
     if(door.contact!= contact){
         door.contact=contact;
-        console.log('door: ',door.contact);
+        return_arr.push(`door: ${door.contact}`);
     }
 
     //accel value
     const accelsensor = parse.accelerationSensor.acceleration.value;
     if(door.accelsensor!= accelsensor){
         door.accelsensor=accelsensor;
-        console.log('accel motion: ',door.accelsensor);
+        return_arr.push(`accel motion: ${door.accelsensor}`);
     }
 
     //battery value
     const battery = parse.battery.battery.value;
     if(door.battery!= battery){
         door.battery=battery;
-        console.log('battery: ',door.battery);
+        return_arr.push(`battery: ${door.battery}`);
     }
+    return return_arr;
 }
 function read_motion(parse){
+    let return_arr = [];
+
     const mot = parse.motionSensor.motion.value;
     if(motion.motion!=mot){
         motion.motion=mot;
-        console.log('motion: ',motion.motion);
+        return_arr.push(`motion: ${motion.motion}`);
     }
 
     const battery = parse.battery.battery.value;
     if(motion.battery!=battery){
         motion.battery=battery;
-        console.log('battery: ', motion.battery);
+        return_arr.push(`battery: ${motion.battery}`);
     }
+    return return_arr;
 }
 
 module.exports ={
-    read_bulb, read_plug, read_air, read_door, read_motion
+    read_bulb, read_plug, read_air, read_door, read_motion, bulb_arr, plug_arr, air, door, motion
 }
