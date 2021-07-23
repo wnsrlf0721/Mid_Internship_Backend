@@ -1,16 +1,25 @@
-function bulb(){
+function Bulb(){
+    this.deviceId = '';
+    this.label = '';
+    this.categories = '';
     this.sat = '';
     this.hue = '';
     this.switch = '';
 }
 
-function plug(){
+function Plug(){
+    this.deviceId = '';
+    this.label = '';
+    this.categories = '';
     this.power = '';
     this.energy = '';
     this.switch = '';
 }
 
-function airmonitor(){
+function Airmonitor(){
+    this.deviceId = '';
+    this.label = '';
+    this.categories = '';
     this.co2_measure = '';
     this.co2_concern = '';
 
@@ -29,17 +38,23 @@ function airmonitor(){
     this.battery = '';
 }
 
-function doorsensor(){
+function Doorsensor(){
+    this.deviceId = '';
+    this.label = '';
+    this.categories = '';
     this.contact = '';
     this.accelsensor = '';
     this.battery = '';
 }
 
-function motionsensor(){
+function Motionsensor(){
+    this.deviceId = '';
+    this.label = '';
+    this.categories = '';
     this.motion = '';
     this.battery = '';
 }
 
 module.exports = {
-    bulb, plug, airmonitor, doorsensor, motionsensor
+    Bulb, Plug, Airmonitor, Doorsensor, Motionsensor
 }

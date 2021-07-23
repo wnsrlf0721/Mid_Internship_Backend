@@ -10,14 +10,20 @@ function getCapabilities(){
     `${config.URL}/${DEVICE_ID[1]}`];
     const p1 = new Promise(resolve=>{
         authedAxios.get(url_data[0]).then(result=>{
-            const capabilities =result.data.components[0].capabilities.map(capability => capability.id)
-            resolve(capabilities);
+            let concat_data = new Object();
+            concat_data.deviceId = result.data.deviceId;
+            concat_data.label = result.data.label;
+            concat_data.categories= result.data.components[0].categories[0].name;
+            resolve(concat_data);
         })
     })
     const p2 = new Promise(resolve=>{
         authedAxios.get(url_data[1]).then(result=>{
-            const capabilities =result.data.components[0].capabilities.map(capability => capability.id)
-            resolve(capabilities);
+            let concat_data = new Object();
+            concat_data.deviceId = result.data.deviceId;
+            concat_data.label = result.data.label;
+            concat_data.categories= result.data.components[0].categories[0].name;
+            resolve(concat_data);
         })
     })
     return Promise.all([p1,p2]);
@@ -49,14 +55,24 @@ function getSensorStatus(){
     `${config.URL}/${DEVICE_ID[1]}/status`];
     const p1 = new Promise(resolve=>{
         authedAxios.get(url_data[0]).then(result=>{
-            let sensor=result.data.components.main
-            resolve(sensor)
+            const sensor=result.data.components.main
+            let colorControl = sensor.colorControl;
+            let concat_data = new Object();
+            concat_data.sat = colorControl.saturation.value;
+            concat_data.hue = colorControl.hue.value;
+            concat_data.switch = sensor.switch.switch.value;
+            resolve(concat_data)
         })
     })
     const p2 = new Promise(resolve=>{
         authedAxios.get(url_data[1]).then(result=>{
             const sensor=result.data.components.main
-            resolve(sensor)
+            let colorControl = sensor.colorControl;
+            let concat_data = new Object();
+            concat_data.sat = colorControl.saturation.value;
+            concat_data.hue = colorControl.hue.value;
+            concat_data.switch = sensor.switch.switch.value;
+            resolve(concat_data)
         })
     })
 

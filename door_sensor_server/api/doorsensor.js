@@ -8,8 +8,11 @@ function getCapabilities(){
     return new Promise((resolve, reject)=>{
             const url = `${config.URL}/${DEVICE_ID}`
             authedAxios.get(url).then((result)=>{
-                const capabilities = result.data.components[0].capabilities.map(capability => capability.id)
-                resolve(capabilities)
+                let concat_data = new Object();
+                concat_data.deviceId = result.data.deviceId;
+                concat_data.label = result.data.label;
+                concat_data.categories= result.data.components[0].categories[0].name;
+                resolve(concat_data);
         }).catch((err)=>{
             if(err) {
                 const err_message = `${err} 오류가 발생했습니다`
@@ -19,21 +22,6 @@ function getCapabilities(){
     })
 }
 
-
-//Smartthings API에서 제공하는 제원 확인
-function getDescription(){
-    return new Promise((resolve, reject)=>{
-        const url = `${config.URL}/${DEVICE_ID}`
-        authedAxios.get(url).then((result)=>{
-            resolve(result.data)
-        }).catch((err)=>{
-            if(err){
-                const err_message = `${err} 오류가 발생했습니다`
-                reject(err_message)
-            }
-        })
-    })
-}
 
 //네트워크 연결 확인
 function getNetworkStatus(){
@@ -57,7 +45,14 @@ function getSensorStatus(){
             const url = `${config.URL}/${DEVICE_ID}/status`
             authedAxios.get(url).then((result)=>{
                 const sensor=result.data.components.main
-                resolve(sensor)
+                let concat_data = new Object();
+                //contact data
+                concat_data.contact = sensor.contactSensor.contact.value;
+                //acceleration data
+                concat_data.acceleration = sensor.accelerationSensor.acceleration.value;
+                //battery data
+                concat_data.battery = sensor.battery.battery.value;
+                resolve(concat_data);
         }).catch((err)=>{
             if(err) {
                 const err_message = `${err} 오류가 발생했습니다`
@@ -84,5 +79,5 @@ function getParticularSensorStatus(capability){
 }
 
 module.exports = {
-    getCapabilities, getDescription, getNetworkStatus, getParticularSensorStatus, getSensorStatus
+    getCapabilities, getNetworkStatus, getParticularSensorStatus, getSensorStatus
 }

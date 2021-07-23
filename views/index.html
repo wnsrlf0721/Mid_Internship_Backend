@@ -36,8 +36,22 @@
 
   <script>
     var socket = io.connect('http://210.107.206.174:3000/');
-
     socket.on('msg', function (data) {
+      $("#chatContent").append(`${data}<br>`);
+    });
+    socket.on('bulb/sensor_status', function (data) {
+      $("#chatContent").append(`${data}<br>`);
+    });
+    socket.on('plug/sensor_status', function (data) {
+      $("#chatContent").append(`${data}<br>`);
+    });
+    socket.on('airmonitor/sensor_status', function (data) {
+      $("#chatContent").append(`${data}<br>`);
+    });
+    socket.on('door/sensor_status', function (data) {
+      $("#chatContent").append(`${data}<br>`);
+    });
+    socket.on('motion/sensor_status', function (data) {
       $("#chatContent").append(`${data}<br>`);
     });
 

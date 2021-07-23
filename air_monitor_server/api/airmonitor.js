@@ -8,30 +8,17 @@ function getCapabilities(){
     return new Promise((resolve, reject)=>{
             const url = `${config.URL}/${DEVICE_ID}`
             authedAxios.get(url).then((result)=>{
-                const capabilities = result.data.components[0].capabilities.map(capability => capability.id)
-                resolve(capabilities)
+                let concat_data = new Object();
+                concat_data.deviceId = result.data.deviceId;
+                concat_data.label = result.data.label;
+                concat_data.categories= result.data.components[0].categories[0].name;
+                resolve(concat_data);
         }).catch((err)=>{
             if(err) {
                 const err_message = `${err} 오류가 발생했습니다`
                 reject(err_message)
             }
         })    
-    })
-}
-
-
-// 에어모니터의 이름, ID, Capabilties 등 Smartthings API에서 제공하는 에어모니터의 제원 확인
-function getDescription(){
-    return new Promise((resolve, reject)=>{
-        const url = `${config.URL}/${DEVICE_ID}`
-        authedAxios.get(url).then((result)=>{
-            resolve(result.data)
-        }).catch((err)=>{
-            if(err){
-                const err_message = `${err} 오류가 발생했습니다`
-                reject(err_message)
-            }
-        })
     })
 }
 
@@ -57,7 +44,28 @@ function getSensorStatus(){
             const url = `${config.URL}/${DEVICE_ID}/status`
             authedAxios.get(url).then((result)=>{
                 const sensor=result.data.components.main
-                resolve(sensor)
+                let concat_data = new Object();
+                //co2 data
+                concat_data.co2_measure = sensor.carbonDioxideMeasurement.carbonDioxide.value;
+                concat_data.co2_concern = sensor.carbonDioxideHealthConcern.carbonDioxideHealthConcern.value;
+                //dust data
+                concat_data.dust_measure = sensor.dustSensor.dustLevel.value;
+                concat_data.dust_concern = sensor.dustHealthConcern.dustHealthConcern.value;
+                //fdust data
+                concat_data.fineDust_measure = sensor.dustSensor.fineDustLevel.value;
+                concat_data.fineDust_concern = sensor.fineDustHealthConcern.fineDustHealthConcern.value; 
+                //vfdust data
+                concat_data.veryfineDust_measure = sensor.veryFineDustSensor.veryFineDustLevel.value;
+                concat_data.veryfineDust_concern = sensor.veryFineDustHealthConcern.veryFineDustHealthConcern.value;
+                //illu data
+                concat_data.illuminance = sensor.illuminanceMeasurement.illuminance.value;
+                //humid data
+                concat_data.humidity = sensor.relativeHumidityMeasurement.humidity.value;
+                //temperature data
+                concat_data.temperature = sensor.temperatureMeasurement.temperature.value;
+                //battery data
+                concat_data.battery = sensor.battery.battery.value;
+                resolve(concat_data);
         }).catch((err)=>{
             if(err) {
                 const err_message = `${err} 오류가 발생했습니다`
@@ -84,5 +92,5 @@ function getParticularSensorStatus(capability){
 }
 
 module.exports = {
-    getCapabilities, getDescription, getNetworkStatus, getParticularSensorStatus, getSensorStatus
+    getCapabilities, getNetworkStatus, getParticularSensorStatus, getSensorStatus
 }

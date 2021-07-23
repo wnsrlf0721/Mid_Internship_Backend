@@ -2,13 +2,17 @@ const client = require('./mqtt/mqtt')
 const api = require('./api/doorsensor')
 
 const scheduler = function(){
-    // 1초마다 센서의 수치 전달
+    // 10초마다 센서의 수치 전달
     setInterval(()=>{
-        api.getSensorStatus().then(data=>{
-            client.publish('door/sensor_status', JSON.stringify(data))  
-            //console.log('send sensorinfo!')  
-        })
-    }, 1000)
+        let newObj = new Object;
+        api.getCapabilities().then(data=>{
+            Object.assign(newObj, data);
+            api.getSensorStatus().then(data=>{
+                Object.assign(newObj,data);
+                client.publish('door/sensor_status',JSON.stringify(newObj));
+            });
+        });
+    }, 10*1000);
 }
 
 

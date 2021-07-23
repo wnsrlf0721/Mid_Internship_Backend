@@ -7,11 +7,6 @@ router.get('/capabilities', (req,res)=>{
     api.getCapabilities().then(data=>res.json(data)).catch(err=>res.json(err))
 })
 
-// 에어모니터의 이름, ID, Capabilties 등 Smartthings API에서 제공하는 에어모니터의 제원 확인
-router.get('/description', (req,res)=>{
-    api.getDescription().then(data=>res.json(data)).catch(err=>res.json(err))
-})
-
 // 에어모니터의 네트워크 연결 확인
 router.get('/network_status', (req,res)=>{
     api.getNetworkStatus().then(data=>res.json(data)).catch(err=>res.json(err))
