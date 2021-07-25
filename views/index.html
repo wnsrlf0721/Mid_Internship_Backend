@@ -35,7 +35,8 @@
   <input id="myChat" type="text">
 
   <script>
-    var socket = io.connect('http://210.107.206.174:3000/');
+    // var socket = io.connect('http://210.107.206.174:3000/');
+    var socket = io.connect('http://localhost:3000/');
     socket.on('msg', function (data) {
       $("#chatContent").append(`${data}<br>`);
     });

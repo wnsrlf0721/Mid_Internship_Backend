@@ -1,7 +1,6 @@
+// 각 device 별 data 호출 함수 정의
 
-const con = require('./IoT_construct');
-
-// 각 device 별 data 호출 함수
+//전구 데이타 호출
 function read_bulb(parse,bulb_arr){
     let return_obj0 = new Object();
     let return_obj1 = new Object();
@@ -27,6 +26,7 @@ function read_bulb(parse,bulb_arr){
     return return_arr;
 }
 
+//스마트플러그 호출
 function read_plug(parse,plug_arr){
     let return_obj0 = new Object();
     let return_obj1 = new Object();
@@ -52,6 +52,7 @@ function read_plug(parse,plug_arr){
     return return_arr;
 }
 
+//에어모니터 호출
 function read_air(parse,air){
     let return_obj = new Object();
     //co2 data
@@ -120,6 +121,7 @@ function read_air(parse,air){
     return return_obj;
 }
 
+//문열림센서 호출
 function read_door(parse,door){
     let return_obj = new Object();
     //contact value
@@ -141,6 +143,8 @@ function read_door(parse,door){
     }
     return return_obj;
 }
+
+//모션센서 호출
 function read_motion(parse,motion){
     let return_obj = new Object();
     //motion value
