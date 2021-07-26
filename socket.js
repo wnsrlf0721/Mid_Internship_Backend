@@ -24,6 +24,7 @@ function insert_db(send_socket,topic){
         var db = new IoT.Door();
     else if(topic === 'plug')
         var db = new IoT.Plug();
+        
     Object.keys(send_socket).forEach(element => {
         db[element] = send_socket[element];
     });
