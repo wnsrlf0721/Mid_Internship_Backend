@@ -16,7 +16,7 @@ client.on('connect', function () {
 
 client.on('message',function(topic,message){
   if(topic=='bulb/update'){
-    const bulb_data = message.toString()
+    const bulb_data = JSON.parse(message.toString());
     api.postParticularSensorStatus(bulb_data)
   }
 })

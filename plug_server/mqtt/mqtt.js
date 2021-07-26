@@ -15,7 +15,7 @@ client.on('connect', function () {
 
 client.on('message',function(topic,message){
   if(topic == 'plug/update'){
-    const plug= message.toString();
+    const plug= JSON.parse(message.toString());
     api.postParticularSensorStatus(plug)
   }
 })

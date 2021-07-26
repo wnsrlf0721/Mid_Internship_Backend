@@ -22,7 +22,7 @@
       overflow-y: auto;
     }
 
-    #myChat {
+    #myPlug, #myBulb {
       width: 100%;
     }
   </style>
@@ -32,11 +32,15 @@
   <div id="chatContent">
 
   </div>
-  <input id="myChat" type="text">
+  <p>Plug Command</p>
+  <input id="myPlug" type="text">
+
+  <p>Hue Bulb Command</p>
+  <input id="myBulb" type="text">
 
   <script>
-    // var socket = io.connect('http://210.107.206.174:3000/');
-    var socket = io.connect('http://localhost:3000/');
+    var socket = io.connect('http://210.107.206.174:3000/');
+    // var socket = io.connect('http://localhost:3000/');
     socket.on('msg', function (data) {
       $("#chatContent").append(`${data}<br>`);
     });
@@ -56,10 +60,18 @@
       $("#chatContent").append(`${data}<br>`);
     });
 
-    $("#myChat").on("keyup", function () {
+    $("#myPlug").on("keyup", function () {
       if (window.event.keyCode == 13) {
-        $("#chatContent").append(`Client : "${$(this).val()}" 보냅니다.<br>`);
-        socket.emit('msg', $(this).val());
+        $("#chatContent").append(`Client to Plug : "${$(this).val()}" 보냅니다.<br>`);
+        socket.emit('plug/command', $(this).val());
+        $(this).val("");
+      }
+    });
+
+    $("#myBulb").on("keyup", function () {
+      if (window.event.keyCode == 13) {
+        $("#chatContent").append(`Client to Bulb : "${$(this).val()}" 보냅니다.<br>`);
+        socket.emit('bulb/command', $(this).val());
         $(this).val("");
       }
     });

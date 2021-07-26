@@ -98,7 +98,7 @@ function getParticularSensorStatus(capability){
     return Promise.all([p1,p2]);
 }
 
-//특정 센서의 수치 업데이트
+//특정 센서의 수치 업데이트 (IoT장비 2개에 모두 적용하는 commands)
 function postParticularSensorStatus(message){
     const url_data=[`${config.URL}/${DEVICE_ID[0]}/commands`,
     `${config.URL}/${DEVICE_ID[1]}/commands`];
